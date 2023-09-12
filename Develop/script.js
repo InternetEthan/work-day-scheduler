@@ -3,7 +3,6 @@
 // in the html.
 $(function () {
 const currentDay = dayjs();
-console.log(currentDay);
 
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -17,22 +16,21 @@ console.log(currentDay);
   // attribute of each time-block be used to do this?
   //
   // TODO: Add code to display the current date in the header of the page.
-$(".time-block").each(function(index, value) {
+$(".time-block").each(function(index, timeBlock) {
   const scheduleHour = value.getAttribute('data-hour');
   const currentHour = dayjs().hour();
+  
+  
   if (scheduleHour > currentHour) {
-    value.classList.add('future')
+    timeBlock.classList.add('future')
   } else if(scheduleHour < currentHour) {
-    value.classList.add('past')
+    timeBlock.classList.add('past')
   } else {
-    value.classList.add('present')
+    timeBlock.classList.add('present')
   }
 
-  console.log(scheduleHour);
-  console.log(currentHour);
-
   // button listener
-  value.addEventListener("click", function (event) {
+  timeBlock.addEventListener("click", function (event) {
     if (event.target.matches('button')) {
       console.log("clicked");
       console.log(event.target);
@@ -44,10 +42,27 @@ $(".time-block").each(function(index, value) {
 function saveSchedule(event) {
   const hour = event.target.parentElement.getAttribute("data-hour");
   const text = event.target.parentElement.querySelector("textarea").value;
+  const schedule = {
+    hour: hour,
+    text: text
+  };
   console.log("hour", hour);
   console.log("text", text);
+  console.log("schedule", schedule);
+
+  if (localStorage.getItem("schedules")) {
+    const schedules = JSON.parse(localStorage.getItem("schedules"));
+    schedules.push(schedule);
+    localStorage.setItem("schedules",JSON.stringify(schedules));
+  } else {
+  const schedules = [];
+  schedules.push(schedule);
+  localStorage.setItem("schedules",JSON.stringify(schedules));
 }
 
-  $("#currentWeekDay").text(currentDay.format('dddd'));
-  $("#currentDay").text(currentDay.format('MMMM DD, YYYY'));
+};
+
+$("#currentWeekDay").text(currentDay.format('dddd'));
+$("#currentDay").text(currentDay.format('MMMM DD, YYYY'));
+
 });
