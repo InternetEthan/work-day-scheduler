@@ -23,11 +23,11 @@ $(".time-block").each(function(index, timeBlock) {
   
   
   if (scheduleHour > currentHour) {
-    timeBlock.classList.add('future')
+    $(timeBlock).removeClass("past present").addClass("future");
   } else if(scheduleHour < currentHour) {
-    timeBlock.classList.add('past')
+    $(timeBlock).removeClass("present future").addClass("past");
   } else {
-    timeBlock.classList.add('present')
+    $(timeBlock).removeClass("past future").addClass("present");
   }
 schedules.forEach (function (schedule) {
   if (timeBlock.getAttribute("data-hour") === schedule.hour) {
