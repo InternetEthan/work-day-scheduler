@@ -17,6 +17,7 @@ const currentDay = dayjs();
   //
   // TODO: Add code to display the current date in the header of the page.
 $(".time-block").each(function(index, timeBlock) {
+  const schedules = JSON.parse(localStorage.getItem("schedules"));
   const scheduleHour = timeBlock.getAttribute('data-hour');
   const currentHour = dayjs().hour();
   
@@ -28,6 +29,11 @@ $(".time-block").each(function(index, timeBlock) {
   } else {
     timeBlock.classList.add('present')
   }
+schedules.forEach (function (schedule) {
+  if (timeBlock.getAttribute("data-hour") === schedule.hour) {
+    timeBlock.querySelector("textarea").value = schedule.text
+  }
+});
 
   // button listener
   timeBlock.addEventListener("click", function (event) {
