@@ -17,7 +17,7 @@ const currentDay = dayjs();
   //
   // TODO: Add code to display the current date in the header of the page.
 $(".time-block").each(function(index, timeBlock) {
-  const scheduleHour = value.getAttribute('data-hour');
+  const scheduleHour = timeBlock.getAttribute('data-hour');
   const currentHour = dayjs().hour();
   
   
@@ -42,21 +42,32 @@ $(".time-block").each(function(index, timeBlock) {
 function saveSchedule(event) {
   const hour = event.target.parentElement.getAttribute("data-hour");
   const text = event.target.parentElement.querySelector("textarea").value;
-  const schedule = {
+  const newSchedule = {
     hour: hour,
     text: text
   };
   console.log("hour", hour);
   console.log("text", text);
-  console.log("schedule", schedule);
+  console.log("schedule", newSchedule);
 
   if (localStorage.getItem("schedules")) {
     const schedules = JSON.parse(localStorage.getItem("schedules"));
-    schedules.push(schedule);
+
+const indexRmv = schedules.findIndex(function (schedule){
+  console.log(schedule);
+  if (newSchedule.hour === schedule.hour) {
+    return true;
+  }
+})
+if (indexRmv!== -1) {
+schedules.splice(indexRmv,1)
+}
+
+    schedules.push(newSchedule);
     localStorage.setItem("schedules",JSON.stringify(schedules));
   } else {
   const schedules = [];
-  schedules.push(schedule);
+  schedules.push(newSchedule);
   localStorage.setItem("schedules",JSON.stringify(schedules));
 }
 
