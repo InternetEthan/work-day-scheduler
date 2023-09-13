@@ -57,3 +57,17 @@ textarea {
   font-size: 20px;
   transition: all 0.3s ease-in-out;
 }
+
+.divDay {
+  display:flex;
+  justify-content: space-between;
+}
+
+#currentWeekDay, #currentDay {
+  font-weight: bold;
+  border: none;
+}
+
+.lead {
+  border-bottom:5px solid black ;
+}
